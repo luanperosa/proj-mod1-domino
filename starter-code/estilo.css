@@ -1,8 +1,8 @@
 .nav {
-    background-color: black;
+    background-color: rgb(90, 84, 84);
     color: white;
     display: flex;
-    justify-content: center;
+    justify-content: initial;
     width: 1280px;
     margin: 0;
 }
@@ -20,7 +20,7 @@
     bottom: 10px;
     border: 1px solid red;
     width: 800px;
-    height: 80px;
+    height: 55px;
     display: flex;
     justify-content: space-around;
 }
@@ -30,7 +30,7 @@
     right: 4px;
     top: 60px;
     border: 1px solid yellow;
-    width: 80px;   
+    width: 55px;   
     height: 430px;
     display: flex;
     flex-direction: column;
@@ -43,7 +43,7 @@
     right: 240px;
     border: 1px solid green;
     width: 800px;
-    height: 80px;
+    height: 55px;
     display: flex;
     justify-content: space-around;
 }
@@ -53,7 +53,7 @@
     left: 4px;
     top:60px;
     border: 1px solid blue;
-    width: 80px;
+    width: 55px;
     height: 430px;
     display: flex;
     flex-direction: column;
@@ -63,9 +63,9 @@
 .pedraVert {
     display: flex;
     flex-direction: column;
-    height: 70px;
-    width: 30px;
-    border: 3px solid black;
+    height: 48px;
+    width: 16px;
+    border: 2px solid black;
 }
 
 .partUp {
@@ -89,9 +89,9 @@
 .pedraHori {
     display: flex;
     flex-direction: row;
-    height: 30px;
-    width: 70px;
-    border: 3px solid black;
+    height: 16px;
+    width: 48px;
+    border: 2px solid black;
 }
 
 .partLeft {
@@ -110,4 +110,16 @@
     height: 100%;
     width: 50%;
     background-color: blue;
+}
+
+.tableCenter {
+    position: absolute;
+    top: 80px;
+    left: 68px;
+    width: 1140px;
+    height: 380px;
+    border: 1px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
