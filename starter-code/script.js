@@ -15,7 +15,7 @@ class Tabuleiro {
       [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [2, 2], [2, 3], [2, 4], [2, 5], [2, 6],
       [3, 3], [3, 4], [3, 5], [3, 6], [4, 4], [4, 5], [4, 6], [5, 5], [5, 6], [6, 6],
     ];
-    this.currentTable = [ [2, 3], [4, 5] ];
+    this.currentTable = [];
   }
 
     sorteio(array) {
@@ -96,23 +96,52 @@ class Tabuleiro {
       document.getElementById("tableCenter").innerHTML = html;
     }
     
-    firstStep() {
-      console.log(this.players[0].pedras)
-      //subtituir por 2 for 
-      this.players.forEach((player) => {
-        player.pedras.forEach((pedra) => {
+    jogando() {
+      play = this.players;
+      
+      for(let i=0; i<play.length; i++) {
+        for(let j=0; j<play.pedras.length; j++) {
 
-        })
-        if (allPecas[0] === 6 && allPecas[1] === 6) {
-          //incluindo pecas no centro atraves do push no atributo currentTable
-          let setPecas = allPecas.slice(0, 2)
-          allPecas.splice(0)
-          this.currentTable.push(setPecas);
-          // fazer o splice e redirtribuir com a função de sistribuição no player
         }
-      })
+      }
     }
-    // fazer um grid de matriz para table
+    
+    firstStep() {
+      // console.log(this.players[0].pedras[0][1])
+      let players = this.players;
+      let current = false;
+      for(let i=0; i<players.length; i++) {
+        for (let j=0; j<players[i].pedras.length; j++) {
+          if(players[i].pedras[j][0] === 6 && players[i].pedras[j][1] === 6) {
+            let setPedras = players[i].pedras[j];
+            this.currentTable.push([...setPedras]);
+            let result = this.players[i].pedras.splice(j, 1);
+            console.log("resultado do splice,", result);
+            console.log("resultado currentTable, ",this.currentTable)
+            console.log(players[i])
+            current = true;
+            break; 
+          } 
+          if(current) {break;}
+        }   
+      }
+    }
+
+    printPedrasMesa() {
+      let htm = '';
+      let currentPedras = this.currentTable;
+      currentPedras.forEach((element) => {
+        htm += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
+        <div class="partRight">${element[1]}</div></div>`;
+      })
+      document.getElementById("tableCenter").innerHTML = htm;
+    }
+      
+          //incluindo pecas no centro atraves do push no atributo currentTable
+          
+          // fazer o splice e redirtribuir com a função de sistribuição no player
+      
+    //fazer um grid de matriz para table
 
   }
 
@@ -128,7 +157,7 @@ console.log("testando medoto de distribuição, ", testeTab.distribuicao());
 
 console.log("tentando acessar nome do player, ", testeTab.players[0].name);
 
-console.log("tentando logica do metodo teste Print Player, ", testeTab.players[0].pedras[0][0]);
+console.log("tentando logica do metodo teste Print Player, ", testeTab.players[0].pedras[0][1]);
 
 //console.log("tentando testePrint manipulação de DOM, ", testeTab.testePrint(testeTab.players[0].pedras));
 
@@ -143,5 +172,10 @@ testeTab.printPedras(2);
 testeTab.printPedras(3);
 testeTab.printPedras(4);
 
+
 testeTab.firstStep();
-//testeTab.printCenter();
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
