@@ -16,6 +16,8 @@ class Tabuleiro {
       [3, 3], [3, 4], [3, 5], [3, 6], [4, 4], [4, 5], [4, 6], [5, 5], [5, 6], [6, 6],
     ];
     this.currentTable = [];
+    this.pedraDireita = [];
+    this.pedraEsquerda = [];
   }
 
     sorteio(array) {
@@ -107,7 +109,6 @@ class Tabuleiro {
     }
     
     firstStep() {
-      // console.log(this.players[0].pedras[0][1])
       let players = this.players;
       let current = false;
       for(let i=0; i<players.length; i++) {
@@ -115,10 +116,8 @@ class Tabuleiro {
           if(players[i].pedras[j][0] === 6 && players[i].pedras[j][1] === 6) {
             let setPedras = players[i].pedras[j];
             this.currentTable.push([...setPedras]);
+            this.pedraEsquerda.push([...setPedras]);
             let result = this.players[i].pedras.splice(j, 1);
-            console.log("resultado do splice,", result);
-            console.log("resultado currentTable, ",this.currentTable)
-            console.log(players[i])
             current = true;
             break; 
           } 
@@ -127,53 +126,139 @@ class Tabuleiro {
       }
     }
 
+    secondStep(pedra) {
+      const sena = this.currentTable;
+      if(pedra[0] !== 6 && pedra[1] !== 6) {return false};
+      if(pedra[0] !== 6){
+        this.currentTable.push([...pedra.reverse()]);
+        this.pedraDireita.push([...pedra]);
+        console.log("if com reverse, ", this.pedraDireita);
+        
+      }else {
+        this.currentTable.push([...pedra]);
+        this.pedraDireita.push([...pedra]);
+        console.log(this.pedraDireita)
+      }
+    }
+
+    thirdStep(pedra) {
+      const pedrasTable = this.currentTable;
+      let lastPedra = pedrasTable.length - 1;
+      if (pedra[0] === 6) {
+        this.currentTable.unshift([...pedra.reverse()]);
+      } else if (pedra[1] === 6) {
+        this.currentTable.unshift([...pedra]);
+      }else if (pedra[0] === pedrasTable[lastPedra][1]) {
+        this.currentTable.push([...pedra]);
+      }else if (pedra[1] === pedrasTable[lastPedra][1]){
+        this.currentTable.push([...pedra.reverse()]);
+      } else {return false;}
+    }
+
+    steepLeft(pedra) {
+      const pedrasTable = this.currentTable;
+      if(pedra[0] === pedrasTable[0][0]) {
+        this.currentTable.unshift([...pedra.reverse()]);
+      } else if(pedra[1] === pedrasTable[0][0]) {
+        this.currentTable.unshift([...pedra]);
+      } else {
+        return false;
+      }
+    }
+
+    steepRight(pedra) {
+      const pedrasTable = this.currentTable;
+      const lastPedra = pedrasTable.length -1;
+      if(pedra[0] === pedrasTable[lastPedra][1]) {
+        this.currentTable.push([...pedra]);
+      } else if(pedra[1] === pedrasTable[lastPedra][1]) {
+        this.currentTable.push([...pedra.reverse()]);
+      } else {
+        return false;
+      }
+    }
+
     printPedrasMesa() {
       let htm = '';
       let currentPedras = this.currentTable;
       currentPedras.forEach((element) => {
-        htm += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
-        <div class="partRight">${element[1]}</div></div>`;
+        if(element[0] === element[1] ) {
+        htm += `<div class="pedraVert"><div class="partUp">${element[0]}</div>
+        <div class="partDown">${element[1]}</div></div>`;
+        }
+        if(element[0] !== element[1] ) {
+          htm += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
+          <div class="partRight">${element[1]}</div></div>`;
+          }
       })
       document.getElementById("tableCenter").innerHTML = htm;
     }
       
-          //incluindo pecas no centro atraves do push no atributo currentTable
-          
-          // fazer o splice e redirtribuir com a função de sistribuição no player
-      
-    //fazer um grid de matriz para table
-
   }
 
 
 const testeTab = new Tabuleiro();
-//testeTab.players[0].name = "Luan"; // teste colocando nome do players apenas no [0]
-    
-console.log("teste acessando o objeto Tabuleiro.pecas[0], ", testeTab.pecas[0][1] );
 
-console.log("testanto metodo de sorteio, ", testeTab.sorteio(testeTab.pecas), testeTab.pecas[0]);
-
-console.log("testando medoto de distribuição, ", testeTab.distribuicao());
-
-console.log("tentando acessar nome do player, ", testeTab.players[0].name);
-
-console.log("tentando logica do metodo teste Print Player, ", testeTab.players[0].pedras[0][1]);
-
-//console.log("tentando testePrint manipulação de DOM, ", testeTab.testePrint(testeTab.players[0].pedras));
-
-testeTab.pecas.forEach((element) => {
-  if(element[0] === 6 && element[1] === 6){
-    console.log("capturou sena com sena, ", element)
-  }
-})
-
+testeTab.distribuicao();
 testeTab.printPedras(1);
 testeTab.printPedras(2);
 testeTab.printPedras(3);
 testeTab.printPedras(4);
-
-
 testeTab.firstStep();
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.secondStep([3, 6]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.thirdStep([6, 4]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepLeft([0, 4]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepRight([1, 3]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepRight([1, 1]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepLeft([0, 0]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepLeft([0, 5]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepLeft([4, 5]);
+testeTab.printPedrasMesa();
+testeTab.printPedras(1);
+testeTab.printPedras(2);
+testeTab.printPedras(3);
+testeTab.printPedras(4);
+testeTab.steepRight([2, 1]);
 testeTab.printPedrasMesa();
 testeTab.printPedras(1);
 testeTab.printPedras(2);
