@@ -2,7 +2,7 @@
     background-color: rgb(90, 84, 84);
     color: white;
     display: flex;
-    justify-content: initial;
+    justify-content: space-between;
     width: 1280px;
     margin: 0;
 }

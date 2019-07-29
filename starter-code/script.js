@@ -132,8 +132,6 @@ class Tabuleiro {
       if(pedra[0] !== 6){
         this.currentTable.push([...pedra.reverse()]);
         this.pedraDireita.push([...pedra]);
-        console.log("if com reverse, ", this.pedraDireita);
-        
       }else {
         this.currentTable.push([...pedra]);
         this.pedraDireita.push([...pedra]);
@@ -177,6 +175,7 @@ class Tabuleiro {
         return false;
       }
     }
+
 
     printPedrasMesa() {
       let htm = '';
@@ -264,3 +263,13 @@ testeTab.printPedras(1);
 testeTab.printPedras(2);
 testeTab.printPedras(3);
 testeTab.printPedras(4);
+
+//console.log(testeTab.players[0].pedras[1])
+
+
+document.getElementById("playerOne").addEventListener("click", function (check) {
+  testeTab.players[0].pedras.forEach((element) => {
+    console.log(element)
+    //testeTab.steepLeft(element)
+  })
+})
