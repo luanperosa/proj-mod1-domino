@@ -2,7 +2,7 @@
     background-color: rgb(90, 84, 84);
     color: white;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 1280px;
     margin: 0;
 }
@@ -68,6 +68,14 @@
     border: 2px solid black;
 }
 
+.pedraVertOne {
+    display: flex;
+    flex-direction: column;
+    height: 48px;
+    width: 16px;
+    border: 2px solid black;
+}
+
 .partUp {
     display: flex;
     justify-content: center;
@@ -87,6 +95,14 @@
 }
 
 .pedraHori {
+    display: flex;
+    flex-direction: row;
+    height: 16px;
+    width: 48px;
+    border: 2px solid black;
+}
+
+.pedraHoriTable {
     display: flex;
     flex-direction: row;
     height: 16px;
@@ -122,4 +138,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.forPedras {
+
+}
+
+.forPedrasPlayer {
+
 }

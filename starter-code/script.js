@@ -16,8 +16,8 @@ class Tabuleiro {
       [3, 3], [3, 4], [3, 5], [3, 6], [4, 4], [4, 5], [4, 6], [5, 5], [5, 6], [6, 6],
     ];
     this.currentTable = [];
-    this.pedraDireita = [];
-    this.pedraEsquerda = [];
+    this.temporyTable = [];
+    this.temporyPedra = [];
   }
 
     sorteio(array) {
@@ -47,66 +47,152 @@ class Tabuleiro {
       this.players[3].pedras = group4;
        //return somente para teste, apagar return apos os testes
     }
+    printAllPage() {
+      document.addEventListener("DOMContentLoaded", function () {
+        let html1 = '';
+        let currentPlayer1 = theDominoGame.players[0].pedras;
+            currentPlayer1.forEach((element) => {
+            html1 += `<div class="forPedrasPlayerOne"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+                    <div class="partDown">${element[1]}</div></div></div> `;
+            });
+                document.getElementById("playerOne").innerHTML = html1;    
+        
+        let html2 = '';
+        let currentPlayer2 = theDominoGame.players[1].pedras;
+            currentPlayer2.forEach((element) => {
+                html2 += `<div class="forPedrasPlayerTwo"><div class="pedraHori" twoElements = "${element}"><div class="partLeft">${element[0]}</div>
+                    <div class="partRight">${element[1]}</div></div></div> `;
+            });
+                document.getElementById("playerTwo").innerHTML = html2;    
+        
+        let html3 = '';
+        let currentPlayer3 = theDominoGame.players[2].pedras;
+            currentPlayer3.forEach((element) => {
+                html3 += `<div class="forPedrasPlayerThree"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+                    <div class="partDown">${element[1]}</div></div></div> `;
+            });
+                document.getElementById("playerThree").innerHTML = html3;            
+        
+        
+        let html4 = '';
+        let currentPlayer4 = theDominoGame.players[3].pedras;
+            currentPlayer4.forEach((element) => {
+                html4 += `<div class="forPedrasPlayerFour"><div class="pedraHori" twoElements = "${element}"><div class="partLeft">${element[0]}</div>
+                    <div class="partRight">${element[1]}</div></div></div> `;
+            });
+                document.getElementById("playerFour").innerHTML = html4;    
+        
+        
+        let htmlTable = '';
+        let currentPedrasTable = theDominoGame.currentTable;
+        currentPedrasTable.forEach((element) => {
+                if(element[0] === element[1] ) {
+                  htmlTable += `<div class="forPedrasTable"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+                <div class="partDown">${element[1]}</div></div></div>`;
+                }
+                if(element[0] !== element[1] ) {
+                  htmlTable += `<div class="forPedrasTable"><div class="pedraHoriTable" twoElements = "${element}"><div class="partLeft">${element[0]}</div>
+                    <div class="partRight">${element[1]}</div></div></div>`;
+                    }
+        });
+        document.getElementById("tableCenter").innerHTML = htmlTable;
+        
+          document.querySelectorAll(".forPedrasPlayerOne").forEach((element) => {
+              element.onclick = (el) => {
+                let clickedPedra1 = parseInt(el.currentTarget.children[0].getAttribute('twoelements')[0])
+                let clickedPedra2 = parseInt(el.currentTarget.children[0].getAttribute('twoelements')[2])
+                theDominoGame.temporyPedra.push(clickedPedra1)
+                theDominoGame.temporyPedra.push(clickedPedra2)
+                clickedPedra1 = 0;
+                clickedPedra2 = 0;
+                theDominoGame.steepLeft(theDominoGame.temporyPedra)
+                console.log(theDominoGame.temporyPedra)
+                
+              }
+          })
 
-    printPedras(playerNumber) {
-      if(playerNumber === 1) {
-        let htmlPlayer = '';
-        let currentPlayer = this.players[0].pedras;
-        currentPlayer.forEach((element) => {
-          htmlPlayer += `<div class="pedraVert"><div class="partUp">${element[0]}</div>
-          <div class="partDown">${element[1]}</div></div> `;
-        });
-        document.getElementById("playerOne").innerHTML = htmlPlayer;
-      }
-      if (playerNumber === 2) {
-        let htmlPlayer = '';
-        let currentPlayer = this.players[1].pedras;
-        currentPlayer.forEach((element) => {
-          htmlPlayer += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
-          <div class="partRight">${element[1]}</div></div> `;
-        });
-        document.getElementById("playerTwo").innerHTML = htmlPlayer;
-      }
-      if(playerNumber === 3) {
-        let htmlPlayer = '';
-        let currentPlayer = this.players[2].pedras;
-        currentPlayer.forEach((element) => {
-          htmlPlayer += `<div class="pedraVert"><div class="partUp">${element[0]}</div>
-          <div class="partDown">${element[1]}</div></div> `;
-        });
-        document.getElementById("playerThree").innerHTML = htmlPlayer;
-      }
-      if (playerNumber === 4) {
-        let htmlPlayer = '';
-        let currentPlayer = this.players[3].pedras;
-        currentPlayer.forEach((element) => {
-          htmlPlayer += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
-          <div class="partRight">${element[1]}</div></div> `;
-        });
-        document.getElementById("playerFour").innerHTML = htmlPlayer;
-      }
-    }
+          document.querySelectorAll(".forPedrasTable").forEach((elem) => {
+            elem.onclick = (e) => {
+              let clickedPedr1 = parseInt(e.currentTarget.children[0].getAttribute('twoelements')[0])
+              let clickedPedr2 = parseInt(e.currentTarget.children[0].getAttribute('twoelements')[2])
+              theDominoGame.temporyTable.push(clickedPedr1);
+              theDominoGame.temporyTable.push(clickedPedr2);
+              clickedPedr1 = 0;
+              clickedPedr2 = 0;
+              console.log("temporyTable, ", theDominoGame.temporyTable)
+            }
+          })
 
-    printCenter() {
-      let html = '';
-      let currentPecas = this.currentTable;
-      currentPecas.forEach((element) => {
-        html += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
-        <div class="partRight">${element[1]}</div></div>`;
-      });
+          
+          
+    })
+  }
       
-      document.getElementById("tableCenter").innerHTML = html;
-    }
     
-    jogando() {
-      play = this.players;
-      
-      for(let i=0; i<play.length; i++) {
-        for(let j=0; j<play.pedras.length; j++) {
 
-        }
-      }
-    }
+//     printPedras(playerNumber) {
+//       // colocar classe que corresponde a todas pedras player1 
+//       // 
+//       if(playerNumber === 1) {
+//         let htmlPlayer = '';
+//         let currentPlayer = this.players[0].pedras;
+//         currentPlayer.forEach((element) => {
+//           htmlPlayer += `<div class="forPedrasPlayer"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+//           <div class="partDown">${element[1]}</div></div></div> `;
+//         });
+//         document.getElementById("playerOne").innerHTML = htmlPlayer;
+
+
+//       }
+//       if (playerNumber === 2) {
+//         let htmlPlayer = '';
+//         let currentPlayer = this.players[1].pedras;
+//         currentPlayer.forEach((element) => {
+//           htmlPlayer += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
+//           <div class="partRight">${element[1]}</div></div> `;
+//         });
+//         document.getElementById("playerTwo").innerHTML = htmlPlayer;
+//       }
+//       if(playerNumber === 3) {
+//         let htmlPlayer = '';
+//         let currentPlayer = this.players[2].pedras;
+//         currentPlayer.forEach((element) => {
+//           htmlPlayer += `<div class="pedraVert"><div class="partUp">${element[0]}</div>
+//           <div class="partDown">${element[1]}</div></div> `;
+//         });
+//         document.getElementById("playerThree").innerHTML = htmlPlayer;
+//       }
+//       if (playerNumber === 4) {
+//         let htmlPlayer = '';
+//         let currentPlayer = this.players[3].pedras;
+//         currentPlayer.forEach((element) => {
+//           htmlPlayer += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
+//           <div class="partRight">${element[1]}</div></div> `;
+//         });
+//         document.getElementById("playerFour").innerHTML = htmlPlayer;
+//       }
+//     }
+
+//     printCenter() {
+//       let html = '';
+//       let currentPecas = this.currentTable;
+//       currentPecas.forEach((element) => {
+//         html += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
+//         <div class="partRight">${element[1]}</div></div>`;
+//       });
+      
+//       document.getElementById("tableCenter").innerHTML = html;
+//     }
+    
+//     jogando() {
+//       play = this.players;
+      
+//       for(let i=0; i<play.length; i++) {
+//         for(let j=0; j<play.pedras.length; j++) {
+
+//         }
+//       }
+//     }
     
     firstStep() {
       let players = this.players;
@@ -116,7 +202,7 @@ class Tabuleiro {
           if(players[i].pedras[j][0] === 6 && players[i].pedras[j][1] === 6) {
             let setPedras = players[i].pedras[j];
             this.currentTable.push([...setPedras]);
-            this.pedraEsquerda.push([...setPedras]);
+            //this.pedraEsquerda.push([...setPedras]);
             let result = this.players[i].pedras.splice(j, 1);
             current = true;
             break; 
@@ -126,150 +212,190 @@ class Tabuleiro {
       }
     }
 
-    secondStep(pedra) {
-      const sena = this.currentTable;
-      if(pedra[0] !== 6 && pedra[1] !== 6) {return false};
-      if(pedra[0] !== 6){
-        this.currentTable.push([...pedra.reverse()]);
-        this.pedraDireita.push([...pedra]);
-      }else {
-        this.currentTable.push([...pedra]);
-        this.pedraDireita.push([...pedra]);
-        console.log(this.pedraDireita)
-      }
-    }
+//     secondStep(pedra) {
+//       const sena = this.currentTable;
+//       if(pedra[0] !== 6 && pedra[1] !== 6) {return false};
+//       if(pedra[0] !== 6){
+//         this.currentTable.push([...pedra.reverse()]);
+//         //this.pedraDireita.push([...pedra]);
+//       }else {
+//         this.currentTable.push([...pedra]);
+//         //this.pedraDireita.push([...pedra]);
+//         console.log(this.pedraDireita)
+//       }
+//     }
 
-    thirdStep(pedra) {
-      const pedrasTable = this.currentTable;
-      let lastPedra = pedrasTable.length - 1;
-      if (pedra[0] === 6) {
-        this.currentTable.unshift([...pedra.reverse()]);
-      } else if (pedra[1] === 6) {
-        this.currentTable.unshift([...pedra]);
-      }else if (pedra[0] === pedrasTable[lastPedra][1]) {
-        this.currentTable.push([...pedra]);
-      }else if (pedra[1] === pedrasTable[lastPedra][1]){
-        this.currentTable.push([...pedra.reverse()]);
-      } else {return false;}
-    }
+//     thirdStep(pedra) {
+//       const pedrasTable = this.currentTable;
+//       let lastPedra = pedrasTable.length - 1;
+//       if (pedra[0] === 6) {
+//         this.currentTable.unshift([...pedra.reverse()]);
+//       } else if (pedra[1] === 6) {
+//         this.currentTable.unshift([...pedra]);
+//       }else if (pedra[0] === pedrasTable[lastPedra][1]) {
+//         this.currentTable.push([...pedra]);
+//       }else if (pedra[1] === pedrasTable[lastPedra][1]){
+//         this.currentTable.push([...pedra.reverse()]);
+//       } else {return false;}
+//     }
 
     steepLeft(pedra) {
       const pedrasTable = this.currentTable;
       if(pedra[0] === pedrasTable[0][0]) {
         this.currentTable.unshift([...pedra.reverse()]);
+        return true
       } else if(pedra[1] === pedrasTable[0][0]) {
         this.currentTable.unshift([...pedra]);
+        return true
       } else {
         return false;
       }
     }
 
-    steepRight(pedra) {
-      const pedrasTable = this.currentTable;
-      const lastPedra = pedrasTable.length -1;
-      if(pedra[0] === pedrasTable[lastPedra][1]) {
-        this.currentTable.push([...pedra]);
-      } else if(pedra[1] === pedrasTable[lastPedra][1]) {
-        this.currentTable.push([...pedra.reverse()]);
-      } else {
-        return false;
-      }
-    }
+//     steepRight(pedra) {
+//       const pedrasTable = this.currentTable;
+//       const lastPedra = pedrasTable.length -1;
+//       if(pedra[0] === pedrasTable[lastPedra][1]) {
+//         this.currentTable.push([...pedra]);
+//       } else if(pedra[1] === pedrasTable[lastPedra][1]) {
+//         this.currentTable.push([...pedra.reverse()]);
+//       } else {
+//         return false;
+//       }
+//     }
+
+//     isLeft(tempory) {
+//       const pedrasTable = this.currentTable[0];
+//       if (tempory[0] === pedrasTable[0] && tempory[1] === pedrasTable[1]) {
+//         return true;
+//       }else {return false}
+//     }
+
+//     isRigth(tempory) {
+//       const lastPedra = (this.currentTable.length - 1)
+//       const pedrasTable = this.currentTable[lastPedra];
+//       if(tempory[0] === pedrasTable[0] && tempory[1] === pedrasTable[1]) {
+//         return true;
+//       }else {return false}
+//     }
 
 
-    printPedrasMesa() {
-      let htm = '';
-      let currentPedras = this.currentTable;
-      currentPedras.forEach((element) => {
-        if(element[0] === element[1] ) {
-        htm += `<div class="pedraVert"><div class="partUp">${element[0]}</div>
-        <div class="partDown">${element[1]}</div></div>`;
-        }
-        if(element[0] !== element[1] ) {
-          htm += `<div class="pedraHori"><div class="partLeft">${element[0]}</div>
-          <div class="partRight">${element[1]}</div></div>`;
-          }
-      })
-      document.getElementById("tableCenter").innerHTML = htm;
-    }
+//     printPedrasMesa() {
+//       let htm = '';
+//       let currentPedras = this.currentTable;
+//       currentPedras.forEach((element) => {
+//         if(element[0] === element[1] ) {
+//         htm += `<div class="forPedras"><div class="pedraVert" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+//         <div class="partDown">${element[1]}</div></div></div>`;
+//         }
+//         if(element[0] !== element[1] ) {
+//           htm += `<div class="forPedras"><div class="pedraHoriTable" twoElements = "${element}"><div class="partLeft">${element[0]}</div>
+//           <div class="partRight">${element[1]}</div></div></div>`;
+//           }
+//       })
+//       document.getElementById("tableCenter").innerHTML = htm;
+
+//       const arrayNovo = document.querySelectorAll(".forPedrasPlayer");
+
+//       arrayNovo.forEach((elemen) => {
       
-  }
+//       elemen.onclick = (e) => {
+//         let clickedPedra1 = parseInt(e.currentTarget.children[0].getAttribute('twoelements')[0]) 
+//         let clickedPedra2 = parseInt(e.currentTarget.children[0].getAttribute('twoelements')[2]) 
+//         testeTab.temporyPedra.push(clickedPedra1)
+//         testeTab.temporyPedra.push(clickedPedra2)
+//       }
+//       });  
+  
+//       const arrayTable = document.querySelectorAll(".forPedras")
+
+//   arrayTable.forEach((elem) => {
+//     elem.onclick = (el) => {
+//       let clicledPedraTable1 = parseInt(el.currentTarget.children[0].getAttribute('twoelements')[0])
+//       let clicledPedraTable2 = parseInt(el.currentTarget.children[0].getAttribute('twoelements')[2])
+//       testeTab.temporyTable.push(clicledPedraTable1)
+//       testeTab.temporyTable.push(clicledPedraTable2)
+//       let lef = testeTab.isLeft(testeTab.temporyTable)
+//       let rigt = testeTab.isRigth(testeTab.temporyTable) 
+      
+//       if (lef) {
+//         let inserindo = testeTab.steepLeft(testeTab.temporyPedra)
+//         testeTab.printPedrasMesa();
+//          if (inserindo) {
+//            testeTab.deletePedra(testeTab.temporyPedra);
+//            testeTab.temporyPedra = [];
+//            testeTab.temporyTable = [];
+//            testeTab.printPedras(1);
+//            testeTab.printPedras(2);
+//            testeTab.printPedras(3);
+//            testeTab.printPedras(4);           
+//          } 
+//       }if (rigt){
+//         let inserindo = testeTab.steepRight(testeTab.temporyPedra)
+//         testeTab.printPedrasMesa();
+//          if (inserindo) {
+//            testeTab.deletePedra(testeTab.temporyPedra);
+//            testeTab.temporyPedra = [];
+//            testeTab.temporyTable = [];
+//            testeTab.printPedras(1);
+//            testeTab.printPedras(2);
+//            testeTab.printPedras(3);
+//            testeTab.printPedras(4);           
+//          } 
+//       }else {
+//         testeTab.printPedrasMesa();
+//         testeTab.temporyPedra = [];
+//         testeTab.temporyTable = [];
+//       }
+    
+//     }
+//   })
+// }
+
+// deletePedra(pedra) {
+//   let players = this.players;
+//       let current = false;
+//       for(let i=0; i<players.length; i++) {
+//         for (let j=0; j<players[i].pedras.length; j++) {
+//             if(pedra[0] === players[i].pedras[j][0] && pedra[1] === players[i].pedras[j][1]) {
+//               this.players[i].pedras.splice(j, 1);
+//               current = true;
+//               break;               
+//             }
+//           } 
+//           if(current) {break;}
+//         }   
+//       }
+}
 
 
-const testeTab = new Tabuleiro();
-
-testeTab.distribuicao();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.firstStep();
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.secondStep([3, 6]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.thirdStep([6, 4]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepLeft([0, 4]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepRight([1, 3]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepRight([1, 1]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepLeft([0, 0]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepLeft([0, 5]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepLeft([4, 5]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-testeTab.steepRight([2, 1]);
-testeTab.printPedrasMesa();
-testeTab.printPedras(1);
-testeTab.printPedras(2);
-testeTab.printPedras(3);
-testeTab.printPedras(4);
-
-//console.log(testeTab.players[0].pedras[1])
 
 
-document.getElementById("playerOne").addEventListener("click", function (check) {
-  testeTab.players[0].pedras.forEach((element) => {
-    console.log(element)
-    //testeTab.steepLeft(element)
-  })
-})
+// const testeTab = new Tabuleiro();
+
+// testeTab.sorteio(testeTab.pecas);
+// testeTab.distribuicao();
+// testeTab.firstStep();
+// testeTab.printPedras(1);
+// testeTab.printPedras(2);
+// testeTab.printPedras(3);
+// testeTab.printPedras(4);
+// testeTab.printPedrasMesa();
+
+
+
+// const arrayNovo = document.querySelectorAll(".forPedrasPlayer")
+
+// arrayNovo.forEach((element) => {
+
+// element.onclick = (e) => {
+//   let clickedPedra1 = parseInt(e.currentTarget.children[0].getAttribute('twoelements')[0]) 
+//   let clickedPedra2 = parseInt(e.currentTarget.children[0].getAttribute('twoelements')[2]) 
+//   testeTab.temporyPedra.push(clickedPedra1)
+//   testeTab.temporyPedra.push(clickedPedra2)
+//   console.log("entrou no onclick do player1")
+//   console.log("temporyPedras, ", testeTab.temporyPedra)
+// }
+// });
+
+
