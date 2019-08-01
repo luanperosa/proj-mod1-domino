@@ -160,26 +160,38 @@ class Tabuleiro {
 //     }
 
     steepLeft(pedra) {
+      console.log(pedra)
+      console.log('left')
       const pedrasTable = this.currentTable;
       if(pedra[0] === pedrasTable[0][0]) {
-        this.currentTable.unshift([...pedra.reverse()]);
+        let reversePedra = pedra.reverse()
+        this.currentTable.unshift(reversePedra);
+        this.temporyPedra = [];
+      console.log(this.currentTable)
         return true
       } else if(pedra[1] === pedrasTable[0][0]) {
-        this.currentTable.unshift([...pedra]);
+        this.currentTable.unshift(pedra);
+        this.temporyPedra = [];
+      console.log(this.currentTable)
         return true
       } else {
+        this.temporyPedra = [];
         return false;
       }
     }
 
     steepRight(pedra) {
+      console.log('right')
       const pedrasTable = this.currentTable;
       const lastPedra = pedrasTable.length -1;
       if(pedra[0] === pedrasTable[lastPedra][1]) {
-        this.currentTable.push([...pedra]);
+        this.currentTable.push(pedra);
+        this.temporyPedra = [];
       } else if(pedra[1] === pedrasTable[lastPedra][1]) {
-        this.currentTable.push([...pedra.reverse()]);
+        this.currentTable.push(pedra.reverse());
+        this.temporyPedra = [];
       } else {
+        this.temporyPedra = [];
         return false;
       }
     }
@@ -272,20 +284,20 @@ class Tabuleiro {
 //   })
 // }
 
-// deletePedra(pedra) {
-//   let players = this.players;
-//       let current = false;
-//       for(let i=0; i<players.length; i++) {
-//         for (let j=0; j<players[i].pedras.length; j++) {
-//             if(pedra[0] === players[i].pedras[j][0] && pedra[1] === players[i].pedras[j][1]) {
-//               this.players[i].pedras.splice(j, 1);
-//               current = true;
-//               break;               
-//             }
-//           } 
-//           if(current) {break;}
-//         }   
-//       }
+deletePedra(pedra) {
+  let players = this.players;
+      let current = false;
+      for(let i=0; i<players.length; i++) {
+        for (let j=0; j<players[i].pedras.length; j++) {
+            if(pedra[0] === players[i].pedras[j][0] && pedra[1] === players[i].pedras[j][1]) {
+              this.players[i].pedras.splice(j, 1);
+              current = true;
+              break;               
+            }
+          } 
+          if(current) {break;}
+        }   
+      }
 }
 
 

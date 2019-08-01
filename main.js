@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
             clickedPedra2 = 0;
             //
             
-            theDominoGame.steepLeft(theDominoGame.temporyPedra)
+            //theDominoGame.steepLeft(theDominoGame.temporyPedra)
+            theDominoGame.steepRight(theDominoGame.temporyPedra)
             
 
             // printCenter
