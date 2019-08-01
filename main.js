@@ -9,7 +9,7 @@ theDominoGame.firstStep();
 document.addEventListener("DOMContentLoaded", function () {
     let html1 = '';
     let currentPlayer1 = theDominoGame.players[0].pedras;
-        currentPlayer1.forEach((element) => {
+        currentPlayer1.forEach((element, index) => {
         html1 += `<div class="forPedrasPlayerOne"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
                 <div class="partDown">${element[1]}</div></div></div> `;
         });
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentPedrasTable = theDominoGame.currentTable;
     currentPedrasTable.forEach((element) => {
             if(element[0] === element[1] ) {
-              htmlTable += `<div class="forPedrasTable"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+              htmlTable += `<div class="forPedrasTable" ><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
             <div class="partDown">${element[1]}</div></div></div>`;
             }
             if(element[0] !== element[1] ) {
@@ -63,11 +63,19 @@ document.addEventListener("DOMContentLoaded", function () {
             theDominoGame.temporyPedra.push(clickedPedra2)
             clickedPedra1 = 0;
             clickedPedra2 = 0;
-            //
-            
+            let temporyDelete = theDominoGame.temporyPedra.slice();
             //theDominoGame.steepLeft(theDominoGame.temporyPedra)
-            theDominoGame.steepRight(theDominoGame.temporyPedra)
-            
+            theDominoGame.steepLeft(theDominoGame.temporyPedra)
+            theDominoGame.deletePedra(temporyDelete)
+
+            // print PLayerOne
+            let html1 = '';
+    let currentPlayer1 = theDominoGame.players[0].pedras;
+        currentPlayer1.forEach((element, index) => {
+        html1 += `<div class="forPedrasPlayerOne" onclick="theDominoGame.printIssoAi()"><div class="pedraVertOne" twoElements="${element}"><div class="partUp">${element[0]}</div>
+                <div class="partDown">${element[1]}</div></div></div> `;
+        });
+            document.getElementById("playerOne").innerHTML = html1;    
 
             // printCenter
             let htmlTable = '';
@@ -83,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
     });
     document.getElementById("tableCenter").innerHTML = htmlTable;
+    
           }
       })
 
@@ -98,5 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(theDominoGame.currentTable)
         }
       })
+
 
 })

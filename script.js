@@ -130,6 +130,7 @@ class Tabuleiro {
           if(current) {break;}
         }   
       }
+    this.printIssoAi()
     }
 
 //     secondStep(pedra) {
@@ -181,7 +182,6 @@ class Tabuleiro {
     }
 
     steepRight(pedra) {
-      console.log('right')
       const pedrasTable = this.currentTable;
       const lastPedra = pedrasTable.length -1;
       if(pedra[0] === pedrasTable[lastPedra][1]) {
@@ -285,20 +285,67 @@ class Tabuleiro {
 // }
 
 deletePedra(pedra) {
-  let players = this.players;
-      let current = false;
-      for(let i=0; i<players.length; i++) {
-        for (let j=0; j<players[i].pedras.length; j++) {
-            if(pedra[0] === players[i].pedras[j][0] && pedra[1] === players[i].pedras[j][1]) {
-              this.players[i].pedras.splice(j, 1);
-              current = true;
-              break;               
-            }
-          } 
-          if(current) {break;}
-        }   
-      }
+  console.log("pedra que chegou,", pedra)
+  let playerPedras = this.players[0].pedras
+  console.log("pedras atuais do players, ", playerPedras)
+  for(let i=0; i<playerPedras.length; i++) {
+    if(pedra[0] === playerPedras[i][0] && pedra[1] === playerPedras[i][1]) {
+      console.log("primeiro if")
+      this.players[0].pedras.splice(i, 1)
+      break;
+    }else if (pedra[0] === playerPedras[i][1] && pedra[1] === playerPedras[i][0]) {
+      console.log("segundo if")
+      this.players[0].pedras.splice(i, 1)
+      console.log(this.players[0].pedras)
+      break;
+    }
+  }
+  
 }
+  printIssoAi(el) {
+    console.log('testeeeee')
+    document.querySelectorAll(".forPedrasPlayerOne").forEach((element) => {
+      element.onclick = (el) => {
+        let clickedPedra1 = parseInt(el.currentTarget.children[0].getAttribute('twoelements')[0])
+        let clickedPedra2 = parseInt(el.currentTarget.children[0].getAttribute('twoelements')[2])
+        theDominoGame.temporyPedra.push(clickedPedra1)
+        theDominoGame.temporyPedra.push(clickedPedra2)
+        clickedPedra1 = 0;
+        clickedPedra2 = 0;
+        let temporyDelete = theDominoGame.temporyPedra.slice();
+        //theDominoGame.steepLeft(theDominoGame.temporyPedra)
+        if (theDominoGame.steepLeft(theDominoGame.temporyPedra)) {
+          theDominoGame.deletePedra(temporyDelete)
+        }
+
+        // print PLayerOne
+        let html1 = '';
+    let currentPlayer1 = theDominoGame.players[0].pedras;
+    currentPlayer1.forEach((element, index) => {
+    html1 += `<div class="forPedrasPlayerOne" onclick="theDominoGame.printIssoAi()" ><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+            <div class="partDown">${element[1]}</div></div></div> `;
+    });
+        document.getElementById("playerOne").innerHTML = html1;    
+    
+        // printCenter
+        let htmlTable = '';
+    let currentPedrasTable = theDominoGame.currentTable;
+    currentPedrasTable.forEach((element) => {
+        if(element[0] === element[1] ) {
+          htmlTable += `<div class="forPedrasTable"><div class="pedraVertOne" twoElements = "${element}"><div class="partUp">${element[0]}</div>
+        <div class="partDown">${element[1]}</div></div></div>`;
+        }
+        if(element[0] !== element[1] ) {
+          htmlTable += `<div class="forPedrasTable"><div class="pedraHoriTable" twoElements = "${element}"><div class="partLeft">${element[0]}</div>
+            <div class="partRight">${element[1]}</div></div></div>`;
+            }
+    });
+    document.getElementById("tableCenter").innerHTML = htmlTable;
+      }
+    })
+    
+  }
+
 
 
 
@@ -330,4 +377,4 @@ deletePedra(pedra) {
 // }
 // });
 
-
+}
