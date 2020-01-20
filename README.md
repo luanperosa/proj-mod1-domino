@@ -1,3 +1,3 @@
-# proj-mod1-domino
+# Project Domino Game
 
-https://luanperosa.github.io/proj-mod1-domino/
+https://luanperosa.github.io/project-domino-game/
