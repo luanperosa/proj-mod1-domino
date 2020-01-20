@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
             clickedPedra1 = 0;
             clickedPedra2 = 0;
             let temporyDelete = theDominoGame.temporyPedra.slice();
-            //theDominoGame.steepLeft(theDominoGame.temporyPedra)
             theDominoGame.steepLeft(theDominoGame.temporyPedra)
             theDominoGame.deletePedra(temporyDelete)
 
@@ -103,8 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
           theDominoGame.temporyTable.push(clickedPedr2);
           clickedPedr1 = 0;
           clickedPedr2 = 0;
-          console.log("temporyTable, ", theDominoGame.temporyTable)
-          console.log(theDominoGame.currentTable)
         }
       })
 
